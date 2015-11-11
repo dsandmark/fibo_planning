@@ -1,19 +1,13 @@
 class SessionService {
     constructor() {
         this.sessions = [];
-
-        this.nextId = 1000;
     }
 
     create() {
-        this.nextId++;
-
         this.sessions.push({
-            id: this.nextId,
+            id: this.sessionId,
             votes: []
         });
-
-        return this.nextId;
     }
 
     getSession(sessionId) {
@@ -31,6 +25,12 @@ class SessionService {
         });
 
         console.log(name, "voted", points, "points.");
+    }
+
+    createMockSession(sessionId) {
+        this.create();
+
+        return this.sessionId;
     }
 }
 

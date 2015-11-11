@@ -1,9 +1,10 @@
 class SessionController {
-    constructor(sessionService) {
-    // constructor() {
-        const sessionId = sessionService.create();
+    constructor($stateParams, sessionService) {
+        this.sessionId = $stateParams.sessionId;
 
-        sessionService.vote(sessionId, "Charles", 5);
+        sessionService.createMockSession(this.sessionId);
+
+        sessionService.vote(this.sessionId, "Charles", 5);
     }
 }
 

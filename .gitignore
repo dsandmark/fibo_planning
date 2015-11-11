@@ -2,3 +2,5 @@ npm-debug.log
 dist
 .DS_Store
 node_modules
+
+src/templates.js

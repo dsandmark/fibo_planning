@@ -1,6 +1,7 @@
 "use strict";
 
 var babelify = require("babelify");
+var bodyParser = require('body-parser');
 var browserify = require("browserify");
 var buffer = require("vinyl-buffer");
 var cache = require("gulp-cached");
@@ -53,6 +54,66 @@ var config = {
 gulp.task("webserver", function() {
     var server = express();
 
+
+    //
+    // Mock session config START
+    //
+
+    // var nextSessionId = 1000;
+    var activeSession = {
+        sessionId: 1234,
+        votes: []
+    };;
+
+    // app.route('/book')
+    //   .get(function(req, res) {
+    //     response.send('Get a random book');
+    //   })
+    //   .post(function(req, res) {
+    //     response.send('Add a book');
+    //   })
+    //   .put(function(req, res) {
+    //     response.send('Update the book');
+    //   });
+
+    server.use(bodyParser.json());
+
+    server.get("/api/session/create", function(request, response) {
+        activeSession = {
+            sessionId: 1234,
+            votes: []
+        };
+
+        response.sendStatus(200);
+    });
+
+    server.delete("/api/session/1234", function(request, response) {
+        activeSession.votes = [];
+    });
+
+    server.get("/api/session/1234", function(request, response) {
+        if (!activeSession) {
+            response.sendStatus(418);
+            return;
+        }
+
+        response.setHeader("Content-Type", "application/json");
+        response.send(JSON.stringify(activeSession));
+    });
+
+    server.post("/api/session/1234/vote", function(request, response) {
+        activeSession.votes.push({
+            name: request.body.name,
+            points: request.body.points
+        });
+
+        response.sendStatus(200);
+    });
+
+    //
+    // Mock session config END
+    //
+
     // Add live reload.
     server.use(livereload({
         port: config.server.livereloadport
@@ -62,8 +123,8 @@ gulp.task("webserver", function() {
     server.use(express.static(paths.dist.root));
 
     // Serve index.html for all routes to leave routing up to Angular.
-    server.all("/*", function(req, res) {
-        res.sendFile("index.html", { root: paths.dist.root });
+    server.all("/*", function(request, response) {
+        response.sendFile("index.html", { root: paths.dist.root });
     });
 
     gutil.log("Webserver started at http://localhost:8000");

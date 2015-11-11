@@ -6,8 +6,7 @@ let sessionModule = angular.module("sessionModule")
     .controller("SessionController", SessionController);
 
 export const sessionRouteInfo = {
-    // url: "/{sessionId:[0-9]{5}}",
-    url: "/session",
+    url: "/{sessionId:[0-9]{5}}",
     controller: "SessionController",
     controllerAs: "vm",
     templateUrl: "session/template.html"
