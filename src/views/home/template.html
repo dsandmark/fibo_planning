@@ -1,20 +1,10 @@
 <md-content>
-    <md-list>
-        <md-subheader class="md-no-sticky">
-            Session
-        </md-subheader>
+    <section layout-sm="column">
+        <md-button class="md-primary"
+                   ui-sref="join">
+            Join session
+        </md-button>
 
-        <md-list-item class="md-2-line" ng-repeat="session in vm.session">
-            <ng-md-icon class="md-avatar"
-                        icon="local_movies"
-                        size="48">
-            </ng-md-icon>
-
-            <div class="md-list-item-text">
-                <h3>{{ session.name }}</h3>
-                <p>{{ session.originalRelease }}</p>
-            </div>
-        </md-list-item>
-
-    </md-list>
+        <md-button>Start session</md-button>
+    </section>
 </md-content>

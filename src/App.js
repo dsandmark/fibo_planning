@@ -3,6 +3,7 @@ import "angular-ui-router";
 import "angular-material";
 import "angular-material-icons";
 import "angular-resource";
+import "angular-messages";
 
 // import modelsModule from "./models/modelsModule";
 import componentsModule from "./components/componentsModule";
@@ -18,6 +19,7 @@ const dependencies = [
     "ngMaterial",
     "ngMdIcons",
     "ngResource",
+    "ngMessages",
     componentsModule,
     templatesModule.name,
     // modelsModule,

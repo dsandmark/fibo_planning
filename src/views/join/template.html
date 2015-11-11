@@ -1,0 +1,26 @@
+<md-content layout-sm layout-align="center center">
+
+    <form name="joinSessionForm" novalidate layout-fill layout-padding>
+        <h1 class="md-title">Join Session</h1>
+
+        <md-input-container>
+            <label>Session ID</label>
+            <input required name="sessionId" ng-model="vm.sessionId"
+                   type="text" ng-pattern="/^\d{5}$/">
+
+            <div ng-messages="joinSessionForm.sessionId.$error">
+                <div ng-message="pattern">
+                    Session ID needs to be five digits.
+                </div>
+            </div>
+        </md-input-container>
+
+        <div layout-sm="row" layout-align-sm="end">
+            <md-button class="md-primary"
+                       ng-click="vm.joinButtonActioned(joinSessionForm.$valid)">
+                Join
+            </md-button>
+        </div>
+    </form>
+
+</md-content>

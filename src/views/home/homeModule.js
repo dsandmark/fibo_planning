@@ -2,7 +2,7 @@ import angular from "angular";
 
 import HomeController from "./HomeController";
 
-let homeModule = angular.module("homeModule", [])
+const homeModule = angular.module("homeModule", [])
     .controller("HomeController", HomeController);
 
 export const homeRouteInfo = {
