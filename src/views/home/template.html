@@ -1,0 +1,20 @@
+<md-content>
+    <md-list>
+        <md-subheader class="md-no-sticky">
+            Session
+        </md-subheader>
+
+        <md-list-item class="md-2-line" ng-repeat="session in vm.session">
+            <ng-md-icon class="md-avatar"
+                        icon="local_movies"
+                        size="48">
+            </ng-md-icon>
+
+            <div class="md-list-item-text">
+                <h3>{{ session.name }}</h3>
+                <p>{{ session.originalRelease }}</p>
+            </div>
+        </md-list-item>
+
+    </md-list>
+</md-content>
