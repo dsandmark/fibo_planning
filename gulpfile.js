@@ -19,6 +19,7 @@ var scsslint = require("gulp-scss-lint");
 var source = require("vinyl-source-stream");
 var sourcemaps = require("gulp-sourcemaps");
 var templateCache = require("gulp-angular-templatecache");
+var _ = require("lodash");
 
 var paths = {
     dist: {
@@ -54,55 +55,65 @@ var config = {
 gulp.task("webserver", function() {
     var server = express();
 
-
     //
     // Mock session config START
     //
 
-    // var nextSessionId = 1000;
-    var activeSession = {
-        sessionId: 1234,
-        votes: []
-    };;
+    var nextSessionId = 1000;
+    var sessions = [];
 
-    // app.route('/book')
-    //   .get(function(req, res) {
-    //     response.send('Get a random book');
-    //   })
-    //   .post(function(req, res) {
-    //     response.send('Add a book');
-    //   })
-    //   .put(function(req, res) {
-    //     response.send('Update the book');
-    //   });
+    function getSession(id) {
+        return _.find(sessions, function(session) {
+            return session.id = id;
+        });
+    }
 
     server.use(bodyParser.json());
 
-    server.get("/api/session/create", function(request, response) {
-        activeSession = {
-            sessionId: 1234,
-            votes: []
-        };
+    // Returns session.
+    server.get("/api/session/:sessionId", function(request, response) {
+        var session = getSession(request.params.sessionId);
 
-        response.sendStatus(200);
-    });
-
-    server.delete("/api/session/1234", function(request, response) {
-        activeSession.votes = [];
-    });
-
-    server.get("/api/session/1234", function(request, response) {
-        if (!activeSession) {
+        if (!session) {
             response.sendStatus(418);
             return;
         }
 
         response.setHeader("Content-Type", "application/json");
-        response.send(JSON.stringify(activeSession));
+        response.send(JSON.stringify(session));
     });
 
-    server.post("/api/session/1234/vote", function(request, response) {
-        activeSession.votes.push({
+    // Clears sessions
+    server.post("/api/session/clear", function(request, response) {
+        var session = getSession(request.body.id);
+
+        session.votes = [];
+
+        response.sendStatus(200);
+    });
+
+    // Creates new session
+    server.post("/api/session/create", function(request, response) {
+        var sessionId = nextSessionId;
+
+        sessions.push({
+            id: sessionId,
+            votes: []
+        });
+
+        nextSessionId += 1;
+
+        response.setHeader("Content-Type", "application/json");
+        response.send(JSON.stringify({
+            sessionId: sessionId
+        }));
+    });
+
+    // Casts a vote in session
+    server.post("/api/session/vote", function(request, response) {
+        var session = getSession(request.body.id);
+
+        session.votes.push({
             name: request.body.name,
             points: request.body.points
         });
