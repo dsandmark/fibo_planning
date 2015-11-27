@@ -12,11 +12,9 @@ class SessionService {
             // });
     }
 
-    // getSession(sessionId) {
-    //     return _.find(this.sessions, (session) => {
-    //         return session.id === sessionId;
-    //     });
-    // }
+    get(sessionId) {
+        return this.$http.get(this.API.session.get + sessionId);
+    }
 
     // vote(name, points) {
     //     const session = this.getSession(this.sessionId);

@@ -19,9 +19,9 @@ class SessionController {
         });
     }
 
-    // vote(points) {
-    //     this.sessionService.vote()
-    // }
+    vote(points) {
+        this.sessionService.vote(points);
+    }
 }
 
 export default SessionController;

@@ -1,6 +1,12 @@
 <md-content layout-sm layout-align="center center">
 
     <form name="joinSessionForm" novalidate layout-fill layout-padding>
+        <md-toolbar class="md-warn" ng-if="vm.displaySessionNotFoundMessage">
+            <div class="md-toolbar-tools">
+                <h2 class="md-flex">Could not find session <span ng-bind="::vm.sessionId"></span>.</h2>
+            </div>
+        </md-toolbar>
+
         <h1 class="md-title">Join Session</h1>
 
         <md-input-container>

@@ -1,17 +1,28 @@
 class JoinController {
-    constructor() {
+    constructor(sessionService) {
+        this.sessionService = sessionService;
 
+        this.displaySessionNotFoundMessage = false;
     }
 
     joinButtonActioned(formIsValid) {
-        console.log("Wants to join session:", this.sessionId);
-
-        if (formIsValid) {
-            console.log("Joining");
-        } else {
-            console.log("Form isn't valid.");
-            // TODO Handle invalid form (show ngMessages)
+        if (!formIsValid) {
+            return;
         }
+
+        let handleSessionFound = (response) => {
+            console.log("response", response);
+            console.log("Session found.");
+        };
+
+        let handleSessionNotFound = () => {
+            this.displaySessionNotFoundMessage = true;
+        };
+
+        this.sessionService.get(this.sessionId).then(
+            handleSessionFound,
+            handleSessionNotFound
+        );
     }
 }
 

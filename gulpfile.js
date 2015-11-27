@@ -59,7 +59,7 @@ gulp.task("webserver", function() {
     // Mock session config START
     //
 
-    var nextSessionId = 1000;
+    var nextSessionId = 12345;
     var sessions = [];
 
     function getSession(id) {
@@ -72,10 +72,15 @@ gulp.task("webserver", function() {
 
     // Returns session.
     server.get("/api/session/:sessionId", function(request, response) {
+        if (isNaN(request.params.sessionId)) {
+            response.sendStatus(404);
+            return;
+        }
+
         var session = getSession(request.params.sessionId);
 
         if (!session) {
-            response.sendStatus(418);
+            response.sendStatus(404);
             return;
         }
 
