@@ -1,11 +1,27 @@
 class SessionController {
-    constructor($stateParams, sessionService) {
+    constructor($state, $stateParams, sessionService) {
+        this.sessionService = sessionService;
+        this.$state = $state;
+
+        if (!$stateParams.sessionId) {
+            this.createNewSession();
+            return;
+        }
+
         this.sessionId = $stateParams.sessionId;
-
-        sessionService.createMockSession(this.sessionId);
-
-        sessionService.vote(this.sessionId, "Charles", 5);
     }
+
+    createNewSession() {
+        this.sessionService.create().then(response => {
+            this.$state.go("session", {
+                sessionId: response.data.sessionId
+            });
+        });
+    }
+
+    // vote(points) {
+    //     this.sessionService.vote()
+    // }
 }
 
 export default SessionController;

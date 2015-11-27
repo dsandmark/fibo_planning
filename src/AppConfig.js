@@ -1,7 +1,12 @@
-const baseUrl = "none";
+const baseUrl = "http://localhost:8000/api";
 
 const api = {
-    session: baseUrl + "/session"
+    session: {
+        get: baseUrl + "/session/",
+        create: baseUrl + "/session/create",
+        clear: baseUrl + "/session/clear",
+        vote: baseUrl + "/session/vote"
+    }
 };
 
 export default angular.module("app.config", [])

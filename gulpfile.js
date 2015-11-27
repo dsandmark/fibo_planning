@@ -83,7 +83,7 @@ gulp.task("webserver", function() {
         response.send(JSON.stringify(session));
     });
 
-    // Clears sessions
+    // Clears session from votes.
     server.post("/api/session/clear", function(request, response) {
         var session = getSession(request.body.id);
 
